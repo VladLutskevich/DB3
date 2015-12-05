@@ -32,7 +32,7 @@ public class Main2Activity extends AppCompatActivity {
     RequestQueue queue;
     String url;
     StringRequest request;
-    JSONObject json;
+    JSONObject json1;
     String strId;
 
     @Override
