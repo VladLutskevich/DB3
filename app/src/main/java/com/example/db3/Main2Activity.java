@@ -11,6 +11,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -31,8 +32,8 @@ public class Main2Activity extends AppCompatActivity {
     EditText editText7;
     RequestQueue queue;
     String url;
-    StringRequest request;
-    JSONObject json1;
+    JsonObjectRequest request;
+    JSONObject json;
     String strId;
 
     @Override
@@ -53,13 +54,24 @@ public class Main2Activity extends AppCompatActivity {
 
         url = "http://46.101.205.23:4444/test_db/" + str1 + "/";
         queue = Volley.newRequestQueue(this);
-        request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+        request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
             @Override
-            public void onResponse(String s) {
-                strId=s;
-                editText2.setText(strId);
-            }
+            public void onResponse(JSONObject s) {
+
+                Iterator<String> iter = s.keys();
+                while (iter.hasNext()) {
+                String key = iter.next();
+
+                editText2.setText(key);
+                Object value = null;
+                try {
+                    value = s.get(key);
+                } catch (JSONException e) {
+                }
+                editText3.setText(value.toString());
+            }}
+
         }, new Response.ErrorListener() {
 
             @Override
